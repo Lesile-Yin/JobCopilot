@@ -1,0 +1,61 @@
+{
+  "manifest_version": 3,
+  "name": "JobCopilot · AI求职智能体",
+  "version": "2.1.0",
+  "description": "基于 LLM 的智能求职助手：AI 岗位匹配 + 千岗千面招呼语 + 自动投递",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "BOSS自动投递"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel.html"
+  },
+  "commands": {
+    "reload-extension": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+9",
+        "mac": "Command+Shift+9"
+      },
+      "description": "热重载扩展（更新代码后使用，免去手动重新加载）"
+    }
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "*://*.zhipin.com/*",
+    "https://open.bigmodel.cn/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.zhipin.com/web/geek/job*"
+      ],
+      "js": [
+        "src/selectors.js",
+        "src/content-search.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "*://*.zhipin.com/web/geek/chat*"
+      ],
+      "js": [
+        "src/selectors.js",
+        "src/content-chat.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
